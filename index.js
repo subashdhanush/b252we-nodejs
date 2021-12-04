@@ -5,6 +5,8 @@ import dotenv from "dotenv";
 import {Db, MongoClient} from "mongodb";
 import { getMovies, getMovieById, createMovies, deleteMovieById, updateMovieById } from "./helper.js";
 import { moviesRouter } from "./routes/movies.js";
+import cors from "cors";
+
 
 dotenv.config();
 
@@ -75,6 +77,7 @@ const MONGO_URL=process.env.MONGO_URL;
 // }]
 
 app.use(express.json());
+app.use(cors());
 
 async function createConnection(){
    const client=new MongoClient(MONGO_URL);
