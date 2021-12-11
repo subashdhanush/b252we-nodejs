@@ -56,6 +56,12 @@ async function createMovies(data) {
         .collection("movies")
         .insertMany(data);
 }
+async function createUser(data) {
+    return await client
+        .db("test")
+        .collection("users")
+        .insertOne(data);
+}
 async function deleteMovieById(id) {
     return await client
         .db("test")
@@ -69,12 +75,21 @@ async function getMovieById(id) {
         .findOne({ id: id });
 }
 
+async function getUserByName(username) {
+    return await client
+        .db("test")
+        .collection("users")
+        .findOne({ username: username });
+}
+
 export {
      getMovies,
       getMovieById, 
       createMovies, 
       deleteMovieById, 
       updateMovieById, 
+      createUser,
+      getUserByName,
     };
 
       
