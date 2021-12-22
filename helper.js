@@ -1,11 +1,9 @@
-import {client} from "./index.js";  
+import {client} from "./index.js";
+import {ObjectId} from 'mongodb';
 
-// export async function getMovies(client, filter) {
-//     return await client
-//         .db("test")
-//         .collection("movies")
-//         .find(filter).toArray();
-// }
+
+
+
 // export async function updateMovieById(client, id, data) {
 //     return await client
 //         .db("test")
@@ -32,6 +30,11 @@ import {client} from "./index.js";
 // }
 
 
+
+
+
+
+
 // async function getMovies(client, filter) {
 //     return await client
 //         .db("test")
@@ -48,7 +51,7 @@ async function updateMovieById(id, data) {
     return await client
         .db("test")
         .collection("movies")
-        .updateOne({ id: id }, { $set: data });
+        .updateOne({_id:ObjectId(id)}, { $set: data });
 }
 async function createMovies(data) {
     return await client
@@ -66,13 +69,14 @@ async function deleteMovieById(id) {
     return await client
         .db("test")
         .collection("movies")
-        .deleteOne({ id: id });
+        .deleteOne({id:ObjectId(id)});
 }
 async function getMovieById(id) {
+    console.log("*****",id);
     return await client
         .db("test")
         .collection("movies")
-        .findOne({ id: id });
+        .findOne({_id:ObjectId(id)});
 }
 
 async function getUserByName(username) {

@@ -8,11 +8,12 @@ import {
      updateMovieById 
    } from "../helper.js";
 
+ import {auth} from "./middleware/auth.js";  
 const router=express.Router();
 
 router
 .route("/")
-.get(async(request,response)=>{
+.get(auth ,async(request,response)=>{
     console.log(request.query);
     const filter=request.query;
      if(filter.rating)
@@ -34,7 +35,7 @@ router
 
     response.send(filterMovies);
 })
-.post(async (request,response)=>{
+.post(auth,async (request,response)=>{
     console.log(request.params);
     const {id}=request.params;
     const data=request.body;
@@ -49,7 +50,7 @@ response.send(result);
 
 router
 .route("/:id")
-.get(async (request,response)=>{
+.get(auth,async (request,response)=>{
     console.log(request.params);
     const {id}=request.params;
 
@@ -64,7 +65,7 @@ router
 
     movie ? response.send(movie):response.status(404).send(notFound);
 })
-.delete(async (request,response)=>{
+.delete(auth,async (request,response)=>{
     console.log(request.params);
     const {id}=request.params;
 
@@ -77,7 +78,7 @@ router
     console.log(movie);
 movie ? response.send(movie):response.status(404).send(notFound);
 })
-.put(async (request,response)=>{
+.put(auth,async (request,response)=>{
     console.log(request.params);
     const {id}=request.params;
     const data=request.body;

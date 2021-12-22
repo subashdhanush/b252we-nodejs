@@ -6,6 +6,8 @@ import {Db, MongoClient} from "mongodb";
 import { getMovies, getMovieById, createMovies, deleteMovieById, updateMovieById } from "./helper.js";
 import { moviesRouter } from "./routes/movies.js";
 import cors from "cors";
+// import { userRouter } from "./routes/users.js";
+import { usersRouter } from "./routes/users.js";
 
 
 dotenv.config();
@@ -16,6 +18,28 @@ const PORT=process.env.PORT || 9000;
 //const MONGO_URL="mongodb+srv://subash_03:12345@cluster0.brumh.mongodb.net";   
 const MONGO_URL=process.env.MONGO_URL;
 
+// const RECIPES_LIST=[
+//     {
+//       "picture": "https://www.vegrecipesofindia.com/wp-content/uploads/2020/01/paneer-butter-masala-1.jpg",
+//       "name": "Panner butter masala"
+//       },
+//       {
+//       "picture": "https://static.toiimg.com/thumb/64696930.cms?width=1200&height=900",
+//       "name": "Parotta shawarma"
+//       },
+//       {
+//       "picture": "https://healthyrecipesblogs.com/wp-content/uploads/2013/02/tandoori-chicken-featured-2021.jpg",
+//       "name": "Chicken tandoori"
+//       },
+//       {
+//       "picture": "https://images.indulgexpress.com/uploads/user/imagelibrary/2019/8/1/original/Biryanifest.jpg",
+//       "name": "Briyani"
+//       },
+//       {
+//       "picture": "https://www.kannammacooks.com/wp-content/uploads/baked-gobi-manchurian-recipe-1.jpg",
+//       "name": "Gobi machurian"
+//       }
+//   ];
 // const movies=[{"id":"100",
 // "name":"Iron man 2",
 // "poster":"https://m.media-amazon.com/images/M/MV5BMTM0MDgwNjMyMl5BMl5BanBnXkFtZTcwNTg3NzAzMw@@._V1_FMjpg_UX1000_.jpg",
@@ -97,6 +121,21 @@ app.get("/",(request,response)=>{
 
 
 app.use('/movies',moviesRouter);
+app.use('/users',usersRouter);
+app.get("/recipes",async (request,response)=>{
+    // response.send(RECIPES_LIST);
+    const recipes=await client
+    .db("test")
+    .collection("recipes")
+    .find({})
+    .toArray();
+    response.send(recipes);
+});
+app.post("/recipes",async (request,response)=>{
+    const data=request.body;
+    const result=await client.db("test").collection("recipes").insertMany(data);
+    response.send(result);
+});
 app.listen(PORT, ()=>console.log("App is started on",PORT));
 
 
